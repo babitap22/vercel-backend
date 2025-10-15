@@ -4,13 +4,14 @@ const cors =require("cors")
 
 
 const { default: mongoose } = require('mongoose')
+require('dotenv').config(); // Load .env file
 const app = express ();
 
 app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({extended:true}));
 
-mongoose.connect("mongodb://localhost:27017/portfolio_contact", {
+mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser:true,
     useUnifiedTopology: true,
 })
@@ -19,6 +20,8 @@ mongoose.connect("mongodb://localhost:27017/portfolio_contact", {
 
 app.use('/', route);
 
-app.listen(process.env.PORT || 3000, function() {
-    console.log('Express app running on port' + (process.env.PORT || 3000))
+// Server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(` Express app running on port ${PORT}`);
 });
